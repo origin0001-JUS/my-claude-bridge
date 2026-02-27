@@ -9,4 +9,4 @@ RUN npm install -g @anthropic-ai/claude-code cokacdir
 WORKDIR /app
 
 # 실행 명령어
-CMD ["cokakdir", "start"]
+CMD ["cokacdir", "start"]
