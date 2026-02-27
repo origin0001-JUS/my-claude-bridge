@@ -1,19 +1,16 @@
-FROM node:20-slim
+FROM node:20
 
-# 1. 가상 터미널(PTY)을 위한 필수 도구 'expect' 추가 설치
-RUN apt-get update && apt-get install -y git python3 make g++ expect
+# 1. 필수 도구 설치
+RUN apt-get update && apt-get install -y git python3 make g++
 
-# 2. 프로그램 설치 (철자 cokacdir 확인 완료)
+# 2. 프로그램 설치 (하이픈 없이 cokacdir)
 RUN npm install -g @anthropic-ai/claude-code cokacdir
 
 WORKDIR /app
 
-# 3. 환경 변수 설정
+# 3. 환경 변수 설정 (에러 방지용)
 ENV CI=true
-ENV TERM=xterm
-ENV COLUMNS=100
-ENV LINES=30
+ENV TERM=dumb
 
-# 4. 'unbuffer' 명령어를 사용하여 가상 터미널을 강제로 할당합니다.
-# 이 방법이 'Raw mode' 에러를 잡는 가장 확실한 방법입니다.
-CMD ["unbuffer", "cokacdir", "start"]
+# 4. 실행 명령어 (가장 중요한 부분: node를 빼고 cokacdir만 실행)
+CMD ["cokacdir", "start"]
